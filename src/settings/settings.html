@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clock Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Appearance</h2>
+
+        <div class="form-group row">
+            <div class="col">
+                <label>Text Color</label>
+                <input type="color" id="textColor">
+            </div>
+            <div class="col">
+                <label>Background Color</label>
+                <input type="color" id="backgroundColor">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Background Opacity: <span id="bgOpacityValue">50</span>%</label>
+            <input type="range" id="backgroundOpacity" min="0" max="100" class="slider">
+        </div>
+
+        <div class="form-group">
+            <label>Font Family</label>
+            <select id="fontFamily">
+                <option value="Segoe UI">Segoe UI</option>
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Impact">Impact</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Font Size: <span id="fontSizeValue">72</span>px</label>
+            <input type="range" id="fontSize" min="20" max="200" class="slider">
+        </div>
+
+        <div class="form-group">
+            <label>Layout</label>
+            <div class="radio-group">
+                <label><input type="radio" name="layout" value="column"> Stacked (Vertical)</label>
+                <label><input type="radio" name="layout" value="horizontal"> Inline (Horizontal)</label>
+            </div>
+        </div>
+
+        <h2>Behavior</h2>
+
+        <div class="form-group checkbox">
+            <label>
+                <input type="checkbox" id="alwaysOnTop">
+                Keep Widget Always on Top
+            </label>
+        </div>
+
+        <div class="form-group checkbox">
+            <label>
+                <input type="checkbox" id="lockPosition">
+                Lock Position (Disables dragging and allows clicking through)
+            </label>
+        </div>
+
+        <div class="form-group checkbox">
+            <label>
+                <input type="checkbox" id="runAtStartup">
+                Launch at System Startup
+            </label>
+        </div>
+
+        <div class="actions">
+            <button id="btnReset" class="btn secondary">Reset Defaults</button>
+            <button id="btnSave" class="btn primary">Save & Close</button>
+        </div>
+    </div>
+    <script src="settings.js"></script>
+</body>
+
+</html>

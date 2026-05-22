@@ -1,0 +1,29 @@
+{
+  "name": "desktop-clock-app",
+  "version": "1.0.0",
+  "description": "A live desktop clock widget",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder -w portable"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BradRobin/Desktop-Clock-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BradRobin/Desktop-Clock-App/issues"
+  },
+  "homepage": "https://github.com/BradRobin/Desktop-Clock-App#readme",
+  "dependencies": {
+    "electron-store": "^8.2.0"
+  },
+  "devDependencies": {
+    "electron": "^41.0.3",
+    "electron-builder": "^26.8.1"
+  }
+}

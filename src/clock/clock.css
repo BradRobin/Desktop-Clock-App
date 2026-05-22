@@ -1,0 +1,370 @@
+:root {
+    --text-color: #ffffff;
+    --digit-color: #9a9a9a;
+    --particle-color: rgba(255, 255, 255, 0.55);
+    --font-family: 'Segoe UI', system-ui, sans-serif;
+    --font-size: 72px;
+    --bg-opacity: 0.5;
+    --bg-rgb: 0, 0, 0;
+    --layout: column;
+    --app-padding: 24px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: transparent;
+    user-select: none;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#clock-container {
+    position: relative;
+    display: flex;
+    flex-direction: var(--layout);
+    align-items: center;
+    justify-content: center;
+    gap: var(--app-padding);
+    padding: var(--app-padding);
+    border-radius: 16px;
+    background-color: rgba(var(--bg-rgb), var(--bg-opacity));
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#clock-container.draggable {
+    -webkit-app-region: drag;
+    cursor: grab;
+}
+
+#clock-container.locked {
+    -webkit-app-region: no-drag;
+    cursor: default;
+}
+
+.close-btn {
+    position: absolute;
+    top: calc(var(--app-padding) * 0.35);
+    right: calc(var(--app-padding) * 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, background-color 0.15s ease;
+    -webkit-app-region: no-drag;
+    z-index: 5;
+}
+
+#clock-container.show-close-btn .close-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.close-btn:hover {
+    background-color: rgba(231, 76, 60, 0.85);
+}
+
+#time-display {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--digit-color);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.time-unit {
+    display: inline-flex;
+    align-items: center;
+}
+
+.digit {
+    position: relative;
+    display: inline-block;
+    min-width: 1ch;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -2px;
+}
+
+.digit-glyph {
+    position: relative;
+    z-index: 1;
+    color: var(--digit-color);
+}
+
+.digit::before {
+    content: attr(data-value);
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: center;
+    color: transparent;
+    background-image:
+        radial-gradient(circle 1.5px at 18% 32%, var(--particle-color) 99%, transparent 100%),
+        radial-gradient(circle 1px at 42% 68%, var(--particle-color) 99%, transparent 100%),
+        radial-gradient(circle 1.25px at 68% 28%, var(--particle-color) 99%, transparent 100%),
+        radial-gradient(circle 1px at 82% 58%, var(--particle-color) 99%, transparent 100%),
+        radial-gradient(circle 1.5px at 30% 52%, var(--particle-color) 99%, transparent 100%),
+        radial-gradient(circle 1px at 56% 42%, var(--particle-color) 99%, transparent 100%),
+        radial-gradient(circle 1.25px at 74% 78%, var(--particle-color) 99%, transparent 100%);
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    pointer-events: none;
+    opacity: 0.85;
+    animation: particle-twinkle 3.6s ease-in-out infinite;
+}
+
+.digit::after {
+    content: attr(data-value);
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: center;
+    color: transparent;
+    background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 36%,
+        rgba(255, 255, 255, 0.92) 50%,
+        transparent 64%,
+        transparent 100%
+    );
+    background-size: 280% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.digit.flash::after {
+    animation: digit-sweep 0.28s ease-out forwards;
+}
+
+.digit.flash::before {
+    animation: particle-twinkle 3.6s ease-in-out infinite, particle-flash 0.28s ease-out forwards;
+}
+
+@keyframes digit-sweep {
+    0% {
+        background-position: 100% 0;
+        opacity: 1;
+    }
+
+    100% {
+        background-position: -100% 0;
+        opacity: 1;
+    }
+}
+
+@keyframes particle-twinkle {
+    0%,
+    100% {
+        opacity: 0.55;
+        filter: brightness(0.95);
+    }
+
+    50% {
+        opacity: 0.95;
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes particle-flash {
+    0% {
+        opacity: 0.7;
+        filter: brightness(1);
+    }
+
+    35% {
+        opacity: 1;
+        filter: brightness(1.45);
+    }
+
+    100% {
+        opacity: 0.85;
+        filter: brightness(1);
+    }
+}
+
+.time-separator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    line-height: 1;
+    padding: 0 0.12em;
+    color: var(--digit-color);
+    opacity: 0.65;
+}
+
+.stopwatch-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    -webkit-app-region: no-drag;
+}
+
+.stopwatch-panel.hidden {
+    display: none;
+}
+
+.stopwatch-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.stopwatch-btn {
+    appearance: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+    -webkit-app-region: no-drag;
+}
+
+.stopwatch-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.stopwatch-btn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.28);
+}
+
+.stopwatch-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.stopwatch-btn-record svg {
+    fill: #e74c3c;
+}
+
+.lap-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-height: 120px;
+    overflow-y: auto;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.lap-list:empty {
+    display: none;
+}
+
+.lap-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.lap-list li:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.options-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    min-width: 140px;
+    padding: 6px;
+    border-radius: 10px;
+    background-color: rgba(var(--bg-rgb), 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    z-index: 10;
+    -webkit-app-region: no-drag;
+}
+
+.options-menu.hidden {
+    display: none;
+}
+
+.options-menu-item {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.options-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.options-menu-item.active {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+
+
+/* Horizontal layout adjustments */
+.layout-horizontal {
+    --layout: row !important;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.layout-horizontal .stopwatch-panel {
+    margin-top: 0;
+    width: 100%;
+    flex-basis: 100%;
+}

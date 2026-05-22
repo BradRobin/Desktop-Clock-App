@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Desktop Clock</title>
+    <link rel="stylesheet" href="clock.css">
+</head>
+
+<body>
+    <div id="clock-container" class="draggable">
+        <button type="button" id="btn-close" class="close-btn" aria-label="Close app" title="Close">×</button>
+        <div id="time-display" aria-live="polite" aria-atomic="true"></div>
+        <div id="stopwatch-panel" class="stopwatch-panel hidden" aria-hidden="true">
+            <div class="stopwatch-controls">
+                <button type="button" id="btn-play" class="stopwatch-btn" aria-label="Play" title="Play">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <button type="button" id="btn-pause" class="stopwatch-btn" aria-label="Pause" title="Pause" disabled>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+                </button>
+                <button type="button" id="btn-record" class="stopwatch-btn stopwatch-btn-record" aria-label="Record lap" title="Record lap" disabled>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg>
+                </button>
+            </div>
+            <ol id="lap-list" class="lap-list"></ol>
+        </div>
+        <div id="options-menu" class="options-menu hidden" role="menu" aria-label="Widget options">
+            <button type="button" class="options-menu-item" data-mode="clock" role="menuitem">Clock</button>
+            <button type="button" class="options-menu-item" data-mode="stopwatch" role="menuitem">Stopwatch</button>
+        </div>
+    </div>
+    <script src="clock.js"></script>
+</body>
+
+</html>
